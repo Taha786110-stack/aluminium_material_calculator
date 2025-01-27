@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aluminium Window Material Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f4f4f9;
+    }
+    .container {
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      max-width: 600px;
+      width: 100%;
+    }
+    h1 {
+      font-size: 24px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    label {
+      font-weight: bold;
+    }
+    .input-group {
+      margin-bottom: 15px;
+    }
+    input, select, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+    button {
+      background-color: #007bff;
+      color: #fff;
+      cursor: pointer;
+      font-size: 16px;
+      transition: 0.3s;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .output {
+      margin-top: 20px;
+    }
+    .output div {
+      margin-bottom: 10px;
+    }
+    .clear {
+      background-color: #dc3545;
+    }
+    .clear:hover {
+      background-color: #a71d2a;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Aluminium Material Calculator</h1>
+
+    <div class="input-group">
+      <label for="height">Height (in meters)</label>
+      <input type="number" id="height" placeholder="Enter Height">
+    </div>
+
+    <div class="input-group">
+      <label for="width">Width (in meters)</label>
+      <input type="number" id="width" placeholder="Enter Width">
+    </div>
+
+    <div class="input-group">
+      <label for="product-type">Product Type</label>
+      <select id="product-type">
+        <option value="">-- Select Product Type --</option>
+        <option value="3-Track Aluminium Windows">3-Track Aluminium Windows</option>
+        <option value="2-Track Aluminium Windows">2-Track Aluminium Windows</option>
+      </select>
+    </div>
+
+    <button onclick="calculate()">Calculate</button>
+    <button class="clear" onclick="clearData()">Clear</button>
+
+    <div class="output" id="output"></div>
+  </div>
+
+  <script>
+    function calculate() {
+      const height = parseFloat(document.getElementById("height").value);
+      const width = parseFloat(document.getElementById("width").value);
+      const productType = document.getElementById("product-type").value;
+
+      const formulas = {
+        "3-Track Aluminium Windows": { topTrack: 2, bottomTrack: 2, handle: 1.2, interlock: 1.1, topBottom: 1 },
+        "2-Track Aluminium Windows": { topTrack: 1.8, bottomTrack: 1.8, handle: 1.1, interlock: 1, topBottom: 0.9 },
+      };
+
+      const outputDiv = document.getElementById("output");
+      outputDiv.innerHTML = "";
+
+      if (!height || !width || !productType) {
+        outputDiv.innerHTML = "<div style='color:red;'>Please fill all the fields correctly.</div>";
+        return;
+      }
+
+      const calc = formulas[productType];
+
+      const topTrack = (width * calc.topTrack).toFixed(2);
+      const bottomTrack = (width * calc.bottomTrack).toFixed(2);
+      const handle = (height * calc.handle).toFixed(2);
+      const interlock = (height * calc.interlock).toFixed(2);
+      const topBottom = (height + width * calc.topBottom).toFixed(2);
+
+      outputDiv.innerHTML = `
+        <div><strong>Top Track:</strong> ${topTrack} meters</div>
+        <div><strong>Bottom Track:</strong> ${bottomTrack} meters</div>
+        <div><strong>Handle:</strong> ${handle} meters</div>
+        <div><strong>Interlock:</strong> ${interlock} meters</div>
+        <div><strong>Top-Bottom:</strong> ${topBottom} meters</div>
+      `;
+    }
+
+    function clearData() {
+      document.getElementById("height").value = "";
+      document.getElementById("width").value = "";
+      document.getElementById("product-type").value = "";
+      document.getElementById("output").innerHTML = "";
+    }
+  </script>
+</body>
+</html>
